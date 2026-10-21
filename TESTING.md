@@ -16,6 +16,9 @@ QEMU or VirtualBox installed. No physical disk formatting was performed.
 - GitHub Actions runs the unit suite on Linux/Windows, Python 3.11–3.13, and a
   real curses demo navigation smoke test inside a Linux PTY. Consult the actual
   run result; workflow presence alone is not evidence of passing execution.
+- `scripts/storage-smoke.py` applies eight real sfdisk layouts to new sparse regular
+  image files and checks GPT, boot sizes and root capacity. It never opens a block
+  device. This is a partition-table integration test, not a full OS installation.
 
 ## Not yet verified
 

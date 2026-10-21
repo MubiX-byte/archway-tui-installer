@@ -25,4 +25,6 @@ jobs:
         with:
           python-version: '3.12'
       - run: python scripts/tui-smoke.py
+      - run: sudo apt-get update -qq && sudo apt-get install -y fdisk
+      - run: python scripts/storage-smoke.py
       - run: bash -n scripts/run-installer.sh scripts/qemu-test.sh

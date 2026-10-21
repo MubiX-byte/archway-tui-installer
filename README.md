@@ -224,6 +224,7 @@ Nie ma automatycznego ponowienia formatowania ani obietnicy rollbacku.
 python -m unittest discover -s tests -v
 python scripts/verify-repos.py
 python scripts/tui-smoke.py  # Linux, prywatny PTY
+python scripts/storage-smoke.py  # Linux + sfdisk, wyłącznie nowe obrazy plikowe
 bash scripts/qemu-test.sh /sciezka/archlinux.iso uefi
 bash scripts/qemu-test.sh /sciezka/archlinux.iso bios
 ```
