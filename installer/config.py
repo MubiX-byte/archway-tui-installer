@@ -43,6 +43,7 @@ class Config:
     ntp: bool = True
     sudo: bool = True
     os_prober: bool = False
+    serial_console: bool = False
     extras: list[str] = field(default_factory=lambda: ["nano", "git"])
     partitions: list[Partition] = field(default_factory=list)
     network: str = ""

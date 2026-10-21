@@ -379,9 +379,13 @@ class App:
     def advanced(self):
         while True:
             choice = self.ui.menu("Advanced Options", ["Partition editor (cfdisk)", f"Detect other operating systems with GRUB: {self.c.os_prober}",
-                                 "Retry package download into mounted target", "Clean up mounts from failed installation", "Back"])
-            if choice == 4:
+                                 "Retry package download into mounted target", "Clean up mounts from failed installation",
+                                 f"Serial console ttyS0: {self.c.serial_console}", "Back"])
+            if choice == 5:
                 return
+            if choice == 4:
+                self.c.serial_console = not self.c.serial_console
+                continue
             if choice == 1:
                 self.c.os_prober = not self.c.os_prober
                 continue

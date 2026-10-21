@@ -50,6 +50,10 @@ class EngineTests(unittest.TestCase):
         self.assertIn("rootflags=subvol=@", opts)
         self.assertEqual(kernel_options(demo_config(), "root-uuid"), "root=UUID=root-uuid rw")
 
+    def test_serial_console_is_opt_in(self):
+        self.assertNotIn("console=", kernel_options(demo_config(), "root-uuid"))
+        self.assertIn("console=ttyS0,115200n8", kernel_options(replace(demo_config(), serial_console=True), "root-uuid"))
+
     def test_missing_package_detected(self):
         r = Mock()
         r.run.side_effect = ["", "base\nlinux\n", "xfce4 package\n"]

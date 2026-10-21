@@ -13,6 +13,8 @@ def kernel_options(c: Config, uuid: str, luks_uuid="") -> str:
         options += f" rd.luks.name={luks_uuid}=archway-root"
     if c.filesystem == "btrfs":
         options += " rootflags=subvol=@"
+    if c.serial_console:
+        options += " console=tty0 console=ttyS0,115200n8"
     return options
 
 
@@ -38,7 +40,7 @@ def install(r: Runner, c: Config, root_raw: str, root_device: str):
         else:
             r.chroot(["grub-install", "--target=i386-pc", c.disk])
         # GRUB generates root= itself. Extra options are needed for LUKS/Btrfs.
-        extra = " ".join(word for word in options.split() if word.startswith(("rd.luks.", "rootflags=")))
+        extra = " ".join(word for word in options.split() if word.startswith(("rd.luks.", "rootflags=", "console=")))
         write_target("/etc/default/grub", f'GRUB_DEFAULT=0\nGRUB_TIMEOUT=5\nGRUB_DISTRIBUTOR="Arch"\nGRUB_CMDLINE_LINUX="{extra}"\nGRUB_DISABLE_OS_PROBER={"false" if c.os_prober else "true"}\n')
         r.chroot(["grub-mkconfig", "-o", "/boot/grub/grub.cfg"])
         r.chroot(["grub-script-check", "/boot/grub/grub.cfg"])

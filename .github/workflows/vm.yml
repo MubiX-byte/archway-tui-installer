@@ -1,0 +1,29 @@
+name: QEMU acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      firmware:
+        description: Firmware mode to validate
+        type: choice
+        options: [bios, uefi]
+        default: bios
+permissions:
+  contents: read
+jobs:
+  install-and-reboot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update -qq && sudo apt-get install -y qemu-system-x86 qemu-utils ovmf libarchive-tools
+      - name: Install on dedicated virtual disk and reboot
+        run: python scripts/vm-e2e.py --firmware '${{ inputs.firmware }}' --work '${{ runner.temp }}/archway-vm'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qemu-${{ inputs.firmware }}-serial-logs
+          path: ${{ runner.temp }}/archway-vm/*-serial.log
+          if-no-files-found: ignore
