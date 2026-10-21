@@ -53,7 +53,8 @@ def main():
     subprocess.run(["qemu-img", "create", "-f", "qcow2", str(image), "40G"], check=True)
     accel = "kvm" if os.access("/dev/kvm", os.R_OK | os.W_OK) else "tcg"
     common = ["qemu-system-x86_64", "-m", "4096", "-smp", "2", "-accel", accel, "-display", "none", "-monitor", "none",
-              "-serial", "stdio", "-no-reboot", "-drive", f"file={image},format=qcow2,if=virtio,serial=ARCHWAY-CI-ONLY",
+              "-serial", "stdio", "-no-reboot", "-drive", f"file={image},format=qcow2,if=none,id=target",
+              "-device", "virtio-blk-pci,drive=target,serial=ARCHWAY-CI-ONLY",
               "-nic", "user,model=virtio-net-pci"]
     if args.firmware == "uefi":
         code = Path("/usr/share/OVMF/OVMF_CODE_4M.fd")
