@@ -22,21 +22,21 @@ def plan(c: Config) -> Layout:
     parts = []
     number = 1
     if c.firmware == "BIOS":
-        lines.append("size=1MiB, type=21686148-6449-6e6f-744e-656564454649, name=BIOS boot")
+        lines.append('size=1MiB, type=21686148-6449-6e6f-744e-656564454649, name="BIOS boot"')
         number += 1
     boot_type = "U" if c.firmware == "UEFI" else "L"
-    lines.append(f"size=1GiB, type={boot_type}, name=Arch boot")
+    lines.append(f'size=1GiB, type={boot_type}, name="Arch boot"')
     parts.append(Partition(partition_path(c.disk, number), "/boot", "vfat" if c.firmware == "UEFI" else "ext4"))
     number += 1
     if c.swap_gib:
-        lines.append(f"size={c.swap_gib}GiB, type=S, name=Arch swap")
+        lines.append(f'size={c.swap_gib}GiB, type=S, name="Arch swap"')
         parts.append(Partition(partition_path(c.disk, number), "swap", "swap"))
         number += 1
     if c.home_gib:
-        lines.append(f"size={c.home_gib}GiB, type=L, name=Arch home")
+        lines.append(f'size={c.home_gib}GiB, type=L, name="Arch home"')
         parts.append(Partition(partition_path(c.disk, number), "/home", c.filesystem))
         number += 1
-    lines.append("type=L, name=Arch root")
+    lines.append('type=L, name="Arch root"')
     parts.append(Partition(partition_path(c.disk, number), "/", c.filesystem))
     return Layout(parts, "\n".join(lines) + "\n")
 
