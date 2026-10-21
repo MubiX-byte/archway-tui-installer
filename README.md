@@ -12,6 +12,24 @@ Testy jednostkowe i test konsoli nie zastępują takiej próby. Szczegóły:
 
 ## Uruchomienie
 
+Najprościej z katalogu projektu:
+
+```sh
+sh start.sh
+```
+
+Na zwykłym Linuksie możesz obejrzeć interfejs bez instalowania systemu:
+
+```sh
+sh start.sh --demo
+```
+
+Skrypt działa również podany ścieżką z innego katalogu, np.
+`sh /sciezka/archway-tui-installer/start.sh --demo`. Wybiera Python 3.11+,
+sprawdza terminal i `curses`, przekazuje argumenty i nie instaluje zależności.
+Właściwa instalacja wymaga konta root na Arch Live ISO. Dotychczasowe
+`sh scripts/run-installer.sh` uruchamia ten sam skrypt.
+
 1. Pobierz aktualne oficjalne [Arch ISO](https://archlinux.org/download/),
    zweryfikuj jego podpis i uruchom je w trybie docelowego systemu: UEFI lub BIOS.
 2. Skopiuj repozytorium na drugi pendrive przed uruchomieniem ISO. TUI pozwala

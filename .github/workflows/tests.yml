@@ -28,3 +28,10 @@ jobs:
       - run: sudo apt-get update -qq && sudo apt-get install -y fdisk
       - run: python scripts/storage-smoke.py
       - run: bash -n scripts/run-installer.sh scripts/qemu-test.sh
+      - name: Verify POSIX shell launchers and argument forwarding
+        run: |
+          sh -n start.sh scripts/run-installer.sh
+          sh start.sh --demo --plan
+          sh scripts/run-installer.sh --demo --plan --firmware BIOS
+          cd /tmp
+          sh "$GITHUB_WORKSPACE/start.sh" --version
